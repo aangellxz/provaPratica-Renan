@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// 🔌 Conexão com o MySQL
+//  Conexão com o MySQL
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -19,10 +19,10 @@ db.connect((err) => {
     console.error("Erro ao conectar ao banco:", err);
     return;
   }
-  console.log("✅ Conectado ao MySQL!");
+  console.log(" Conectado ao MySQL!");
 });
 
-// 🟢 Criar novo livro
+//  Criar novo livro
 app.post("/livros", (req, res) => {
   const { titulo, autor, ano_publicacao, isbn, disponivel } = req.body;
   if (!titulo || !autor || !ano_publicacao)
@@ -35,7 +35,7 @@ app.post("/livros", (req, res) => {
   });
 });
 
-// 🟡 Listar todos
+// Listar todos
 app.get("/livros", (req, res) => {
   db.query("SELECT * FROM livros", (err, results) => {
     if (err) return res.status(500).json({ erro: "Erro ao buscar livros" });
@@ -43,7 +43,7 @@ app.get("/livros", (req, res) => {
   });
 });
 
-// 🔵 Buscar um livro
+// Buscar um livro
 app.get("/livros/:id", (req, res) => {
   db.query("SELECT * FROM livros WHERE id = ?", [req.params.id], (err, results) => {
     if (err) return res.status(500).json({ erro: "Erro ao buscar livro" });
@@ -52,7 +52,7 @@ app.get("/livros/:id", (req, res) => {
   });
 });
 
-// 🟣 Atualizar
+//  Atualizar
 app.put("/livros/:id", (req, res) => {
     const { id } = req.params;
     const { disponivel } = req.body;
@@ -77,8 +77,7 @@ app.put("/livros/:id", (req, res) => {
   });
   
   
-
-// 🔴 Deletar
+//  Deletar
 app.delete("/livros/:id", (req, res) => {
   db.query("DELETE FROM livros WHERE id = ?", [req.params.id], (err, result) => {
     if (err) return res.status(500).json({ erro: "Erro ao remover livro" });
