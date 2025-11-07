@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Biblioteca</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+  <h1>Biblioteca</h1>
+
+  <h2>Adicionar Livro</h2>
+  <form id="formAdd">
+    <input type="text" id="titulo" placeholder="Título" required />
+    <input type="text" id="autor" placeholder="Autor" required />
+    <input type="number" id="ano_publicacao" placeholder="Ano" required />
+    <input type="text" id="isbn" placeholder="ISBN" />
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <h2>Livros Cadastrados</h2>
+  <div id="lista"></div>
+
+  <script>
+    const api = "http://localhost:3000/livros";
+    const listaDiv = document.getElementById("lista");
+
+    async function carregarLivros() {
+      const res = await fetch(api);
+      const data = await res.json();
+
+      listaDiv.innerHTML = data.livros.map(l => `
+        <div>
+          <strong>${l.titulo}</strong> - ${l.autor} (${l.ano_publicacao})
+          <button onclick="deletarLivro(${l.id})">🗑️</button>
+        </div>
+      `).join("");
+    }
+
+    document.getElementById("formAdd").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const livro = {
+        titulo: document.getElementById("titulo").value,
+        autor: document.getElementById("autor").value,
+        ano_publicacao: parseInt(document.getElementById("ano_publicacao").value),
+        isbn: document.getElementById("isbn").value,
+        disponivel: true
+      };
+
+      await fetch(api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(livro)
+      });
+
+      e.target.reset();
+      carregarLivros();
+    });
+
+    async function deletarLivro(id) {
+      await fetch(`${api}/${id}`, { method: "DELETE" });
+      carregarLivros();
+    }
+
+    carregarLivros();
+  </script>
+</body>
+</html>

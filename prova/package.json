@@ -1,0 +1,19 @@
+{
+  "name": "biblioteca-api",
+  "version": "1.0.0",
+  "description": "API REST para gerenciar livros (Node.js + Express + SQLite)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mysql2": "^3.15.3",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

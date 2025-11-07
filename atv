@@ -1,0 +1,198 @@
+# Atividade Prática: API REST - Sistema de Biblioteca
+
+## 📚 Objetivo
+
+Desenvolver uma API REST para gerenciar livros de uma biblioteca, implementando operações CRUD (Create, Read, Update, Delete) com persistência em banco de dados.
+
+## ⏱️ Tempo estimado
+
+2 horas
+
+## 🎯 Descrição
+
+Você deve criar uma API que permita gerenciar um catálogo de livros. A API deve ser capaz de adicionar, listar, atualizar e remover livros do sistema.
+
+## 🔧 Tecnologias Sugeridas
+
+- **Backend**: Python com Flask (ou Node.js com Express)
+- **Banco de Dados**: SQLite (simples e sem necessidade de instalação)
+- **Teste de API**: Postman, Insomnia ou Thunder Client (VS Code)
+
+## 📊 Estrutura do Banco de Dados
+
+### Tabela: livros
+
+| Campo          | Tipo         | Descrição                                         | Obrigatório        |
+| -------------- | ------------ | ------------------------------------------------- | ------------------ |
+| id             | INTEGER      | Identificador único (Primary Key, Auto-increment) | Sim                |
+| titulo         | VARCHAR(200) | Título do livro                                   | Sim                |
+| autor          | VARCHAR(100) | Nome do autor                                     | Sim                |
+| ano_publicacao | INTEGER      | Ano de publicação                                 | Sim                |
+| isbn           | VARCHAR(20)  | Código ISBN                                       | Não                |
+| disponivel     | BOOLEAN      | Se o livro está disponível para empréstimo        | Sim (padrão: true) |
+
+## 🚀 Endpoints a Implementar
+
+### 1. Criar um novo livro
+
+```
+POST /livros
+Content-Type: application/json
+
+Body:
+{
+  "titulo": "1984",
+  "autor": "George Orwell",
+  "ano_publicacao": 1949,
+  "isbn": "978-0451524935",
+  "disponivel": true
+}
+
+Resposta (201 Created):
+{
+  "id": 1,
+  "titulo": "1984",
+  "autor": "George Orwell",
+  "ano_publicacao": 1949,
+  "isbn": "978-0451524935",
+  "disponivel": true,
+  "mensagem": "Livro cadastrado com sucesso!"
+}
+```
+
+### 2. Listar todos os livros
+
+```
+GET /livros
+
+Resposta (200 OK):
+{
+  "total": 2,
+  "livros": [
+    {
+      "id": 1,
+      "titulo": "1984",
+      "autor": "George Orwell",
+      "ano_publicacao": 1949,
+      "isbn": "978-0451524935",
+      "disponivel": true
+    },
+    {
+      "id": 2,
+      "titulo": "O Senhor dos Anéis",
+      "autor": "J.R.R. Tolkien",
+      "ano_publicacao": 1954,
+      "isbn": "978-0544003415",
+      "disponivel": false
+    }
+  ]
+}
+```
+
+### 3. Buscar um livro específico
+
+```
+GET /livros/{id}
+
+Resposta (200 OK):
+{
+  "id": 1,
+  "titulo": "1984",
+  "autor": "George Orwell",
+  "ano_publicacao": 1949,
+  "isbn": "978-0451524935",
+  "disponivel": true
+}
+
+Resposta (404 Not Found):
+{
+  "erro": "Livro não encontrado"
+}
+```
+
+### 4. Atualizar um livro
+
+```
+PUT /livros/{id}
+Content-Type: application/json
+
+Body (pode enviar apenas os campos que deseja atualizar):
+{
+  "disponivel": false
+}
+
+Resposta (200 OK):
+{
+  "id": 1,
+  "titulo": "1984",
+  "autor": "George Orwell",
+  "ano_publicacao": 1949,
+  "isbn": "978-0451524935",
+  "disponivel": false,
+  "mensagem": "Livro atualizado com sucesso!"
+}
+```
+
+### 5. Deletar um livro
+
+```
+DELETE /livros/{id}
+
+Resposta (200 OK):
+{
+  "mensagem": "Livro removido com sucesso!"
+}
+
+Resposta (404 Not Found):
+{
+  "erro": "Livro não encontrado"
+}
+```
+
+## ✅ Requisitos Obrigatórios
+
+1. ✔️ Implementar todos os 5 endpoints listados acima
+2. ✔️ Validar dados de entrada (campos obrigatórios)
+3. ✔️ Retornar códigos HTTP apropriados:
+   - 200: Sucesso
+   - 201: Criado
+   - 400: Requisição inválida
+   - 404: Não encontrado
+   - 500: Erro interno
+4. ✔️ Respostas em formato JSON
+5. ✔️ Persistência em banco de dados (SQLite)
+
+## 🌟 Bônus (Opcional)
+
+- Implementar filtros na listagem (ex: `/livros?autor=Tolkien`)
+- Adicionar paginação nos resultados
+- Implementar endpoint de busca por título ou autor
+- Adicionar tratamento de erros mais robusto
+- Documentar a API usando Swagger/OpenAPI
+
+## 📝 Entregáveis
+
+1. Código fonte da aplicação
+2. Arquivo `requirements.txt` (Python) ou `package.json` (Node.js)
+3. Arquivo `README.md` com instruções de execução
+4. Arquivo SQL ou script de criação do banco de dados
+5. Coleção do Postman/Insomnia com os testes (opcional)
+
+## 🧪 Como Testar
+
+1. Inicie a aplicação
+2. Use o Postman/Insomnia para testar cada endpoint
+3. Verifique se os dados estão sendo persistidos no banco
+4. Teste casos de erro (livro não encontrado, campos obrigatórios faltando, etc.)
+
+## 💡 Dicas
+
+1. **Comece simples**: Implemente primeiro o GET e POST, depois os demais
+2. **Teste frequentemente**: Teste cada endpoint após implementá-lo
+3. **Organize o código**: Separe a lógica de rotas, banco de dados e validações
+4. **Use ferramentas**: Postman/Insomnia facilitam muito o teste de APIs
+5. **Trate erros**: Sempre valide os dados recebidos e retorne mensagens claras
+
+---
+
+**Boa sorte! 🚀**
